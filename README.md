@@ -1,5 +1,7 @@
 # marcinplywa.pl — szablon strony
 
+**Podgląd na żywo:** https://szpytma.github.io/marcinplywa-www/
+
 Statyczna strona wizytówka (one-page) dla **Marcina Kędziora** — instruktora nauki pływania,
 ratownika WOPR i nauczyciela Edukacji dla Bezpieczeństwa.
 
@@ -85,9 +87,26 @@ Zmiana tych czterech wartości zmienia kolorystykę całej strony.
 
 ## Publikacja
 
-Strona jest w pełni statyczna — działa na każdym hostingu:
-zwykły FTP, GitHub Pages, Netlify, Cloudflare Pages, Vercel.
-Wystarczy wgrać zawartość katalogu do katalogu głównego domeny.
+Strona jest hostowana na **GitHub Pages** z gałęzi `main`, katalog `/`.
+Każdy `git push` do `main` automatycznie aktualizuje stronę (build trwa ~1 minutę).
+
+```powershell
+git add -A
+git commit -m "opis zmiany"
+git push
+```
+
+### Własna domena marcinplywa.pl
+
+1. Dodaj w katalogu głównym plik `CNAME` o treści `marcinplywa.pl`
+2. U rejestratora domeny ustaw rekordy DNS:
+   - `A` dla `@` → `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
+   - `CNAME` dla `www` → `szpytma.github.io`
+3. W ustawieniach repozytorium (Settings → Pages) wpisz domenę i zaznacz **Enforce HTTPS**
+4. Podmień adresy w `index.html` (`canonical`, Open Graph) oraz w `sitemap.xml`
+
+Strona jest w pełni statyczna, więc działa też na każdym innym hostingu:
+zwykły FTP, Netlify, Cloudflare Pages, Vercel.
 
 ## Dostępność i wydajność
 
