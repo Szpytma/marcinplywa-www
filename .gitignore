@@ -1,0 +1,11 @@
+# Oryginalne pliki zdjec z telefonu (kopie leza jako marcin-*.jpg)
+assets/img/IMG-*.jpg
+
+# System
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Edytory
+.vscode/
+.idea/
