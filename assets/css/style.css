@@ -431,6 +431,15 @@ h2.light{color:#fff}
 
 /* ---------- Podstrony tekstowe (polityka prywatności) ---------- */
 .page-legal{padding-top:var(--header-h)}
+
+/* Nagłówek na podstronie jest zawsze jasny. Bez tego main.js zdejmuje klasę
+   .scrolled przy przewinięciu na samą górę i biały napis znika na białym tle. */
+.page-legal .site-header{
+  background:rgba(255,255,255,.94);backdrop-filter:blur(12px);
+  box-shadow:0 2px 20px rgba(11,61,92,.1);
+}
+.page-legal .logo-text strong{color:var(--navy-900)}
+.page-legal .logo-text small{color:var(--ink-soft)}
 .legal{padding:56px 0 80px}
 .legal h1{font-size:clamp(1.9rem,4vw,2.6rem);color:var(--navy-900);margin-bottom:10px}
 .legal h2{
