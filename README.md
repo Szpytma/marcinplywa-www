@@ -34,14 +34,14 @@ python -m http.server 8000
 # → http://localhost:8000
 ```
 
-## Co trzeba uzupełnić przed publikacją
+## Dane kontaktowe na stronie
 
-| Co | Gdzie |
-|---|---|
-| Numer telefonu (`+48 000 000 000`) | `index.html` — sekcja `#kontakt`, stopka, blok JSON-LD |
-| Adres e-mail | `index.html` + `assets/js/main.js` (`CONTACT_EMAIL`) |
-| Miasto / basen, na którym odbywają się zajęcia | `index.html` — sekcja `#kontakt` („Miejsce zajęć”) |
-| Data w `sitemap.xml` | przy każdej aktualizacji treści |
+| Co | Wartość | Gdzie w kodzie |
+|---|---|---|
+| Telefon | +48 664 984 527 | `index.html` — sekcja `#kontakt`, stopka, blok JSON-LD |
+| E-mail | kontakt@marcinplywa.pl | `index.html` + `assets/js/main.js` (`CONTACT_EMAIL`) |
+| Miejsce zajęć | Rzeszów i okolice | `index.html` — sekcja `#kontakt`, `title`, `description`, JSON-LD |
+| Data w `sitemap.xml` | aktualizuj przy każdej zmianie treści | `sitemap.xml` |
 
 Zdjęcia są już wstawione. Podmiana: wystarczy nadpisać `marcin-hero.jpg`
 (kadr pionowy, twarz w górnej części) lub `marcin-woda.jpg` (kadr bardzo wysoki).
@@ -82,7 +82,7 @@ Walidacja pól (w `assets/js/main.js`):
 | Pole | Reguła |
 |---|---|
 | Imię i nazwisko | wymagane, min. 3 znaki, musi zawierać literę |
-| Telefon | wymagany, 9 cyfr; prefiks `+48`, `0048` lub `48` jest obcinany |
+| Telefon | wymagany, 9 cyfr; prefiks `+48` / `0048` obcinany tylko wtedy, gdy długość na to wskazuje — numer `48 123 45 67` (kierunkowy Radomia) zostaje nietknięty |
 | E-mail | opcjonalny, ale jeśli podany — musi mieć poprawny format |
 | Zgoda RODO | wymagane zaznaczenie |
 
@@ -95,8 +95,8 @@ stare `style.css` i `main.js` nawet przez 10 minut po wdrożeniu. Dlatego oba
 pliki są linkowane z numerem wersji:
 
 ```html
-<link rel="stylesheet" href="assets/css/style.css?v=20260920b">
-<script src="assets/js/main.js?v=20260920b" defer></script>
+<link rel="stylesheet" href="assets/css/style.css?v=20260920c">
+<script src="assets/js/main.js?v=20260920c" defer></script>
 ```
 
 **Po każdej edycji CSS lub JS podnieś `?v=...` w `index.html`** (np. na `20260921a`).
@@ -166,9 +166,21 @@ Strefa DNS w OVH (panel → Web Cloud → Domeny → marcinplywa.pl → Strefa D
 Plik `CNAME` w katalogu głównym repozytorium zawiera `marcinplywa.pl` —
 **nie usuwaj go**, bo GitHub natychmiast odetnie własną domenę.
 
-Uwaga na przyszłość: gdyby domena miała obsługiwać pocztę, trzeba będzie dodać
-rekordy MX i poprawić SPF — obecny wpis `v=spf1 -all` mówi, że żaden serwer
-nie wysyła poczty z tej domeny.
+### Poczta
+
+Skrzynka `kontakt@marcinplywa.pl` działa na **Zimbra Starter** (darmowy pakiet
+w cenie domeny, 15 GiB). Webmail: https://webmail.mail.ovh.net/
+
+Rekordy pocztowe w strefie: MX `mx0`–`mx3.mail.ovh.net` oraz SPF
+`v=spf1 include:mx.ovh.com ~all`.
+
+Konfiguracja w kliencie poczty:
+
+| | |
+|---|---|
+| IMAP | `ssl0.ovh.net`, port 993, SSL/TLS |
+| SMTP | `ssl0.ovh.net`, port 465, SSL/TLS |
+| Login | pełny adres `kontakt@marcinplywa.pl` |
 
 Strona jest w pełni statyczna, więc działa też na każdym innym hostingu:
 zwykły FTP, Netlify, Cloudflare Pages, Vercel.

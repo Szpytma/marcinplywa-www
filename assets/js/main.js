@@ -186,10 +186,13 @@
 
   var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
 
-  // Zostawia same cyfry i obcina prefiks krajowy (+48 / 0048 / 48).
+  /* Zostawia same cyfry i obcina prefiks krajowy — ale tylko wtedy, gdy
+     długość na to wskazuje. Inaczej numer stacjonarny z kierunkowym 48
+     (Radom, np. 48 123 45 67) straciłby dwie pierwsze cyfry. */
   var phoneDigits = function (value) {
-    var d = String(value).replace(/[^\d+]/g, '');
-    d = d.replace(/^\+?(?:0048|48)/, '').replace(/\D/g, '');
+    var d = String(value).replace(/\D/g, '');
+    if (d.length === 13 && d.slice(0, 4) === '0048') return d.slice(4);
+    if (d.length === 11 && d.slice(0, 2) === '48') return d.slice(2);
     return d;
   };
 
@@ -303,12 +306,26 @@
           })
           .then(function (res) {
             if (String(res.success) !== 'true') {
-              throw new Error(res.message || 'Nieznany błąd');
+              var msg = String(res.message || 'Nieznany błąd');
+              // Rozróżniamy brak aktywacji formularza od zwykłej awarii —
+              // inaczej podczas konfiguracji widać tylko ogólny komunikat.
+              throw new Error(/activat/i.test(msg) ? 'NIEAKTYWOWANY' : msg);
             }
             form.reset();
             setNote('Dziękuję — wiadomość została wysłana. Odezwę się wkrótce.', 'ok');
           })
-          .catch(function () {
+          .catch(function (err) {
+            if (window.console && console.warn) {
+              console.warn('[formularz] ' + (err && err.message));
+            }
+            if (err && err.message === 'NIEAKTYWOWANY') {
+              setNote(
+                'Formularz czeka na aktywację. Wiadomość nie została wysłana — ' +
+                'proszę o kontakt telefoniczny (+48 664 984 527) lub e-mail na ' + CONTACT_EMAIL + '.',
+                'err'
+              );
+              return;
+            }
             setNote(
               'Nie udało się wysłać wiadomości. Proszę o kontakt telefoniczny (+48 664 984 527) ' +
               'lub e-mail na ' + CONTACT_EMAIL + '.',
