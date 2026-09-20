@@ -391,6 +391,9 @@ h2.light{color:#fff}
 }
 .field input.invalid,.field select.invalid,.field textarea.invalid{border-color:#e08a84;box-shadow:0 0 0 4px rgba(212,87,79,.12)}
 
+/* Pułapka na boty — niewidoczna i poza kolejnością fokusu */
+.honeypot{position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none}
+
 .consent{display:flex;gap:12px;align-items:flex-start;font-size:.85rem;color:var(--ink-soft);margin:6px 0 22px;cursor:pointer}
 .consent input{width:20px;height:20px;flex:none;margin-top:2px;accent-color:var(--blue-500)}
 .form-note{margin:14px 0 0;font-size:.9rem;font-weight:600;text-align:center;min-height:1.2em}

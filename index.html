@@ -518,6 +518,9 @@
           <label for="wiadomosc">Wiadomość</label>
           <textarea id="wiadomosc" name="wiadomosc" rows="5" placeholder="Wiek uczestnika, cele, preferowane dni i godziny…"></textarea>
         </div>
+        <!-- Pułapka na boty — ukryta przed użytkownikami, wypełniają ją tylko skrypty -->
+        <input type="text" name="_honey" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
+
         <label class="consent">
           <input type="checkbox" id="zgoda" name="zgoda" required>
           <span>Wyrażam zgodę na przetwarzanie moich danych osobowych w celu odpowiedzi na zapytanie. <span class="req">*</span></span>

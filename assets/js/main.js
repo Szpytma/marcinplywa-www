@@ -5,13 +5,28 @@
   'use strict';
 
   /* ---- KONFIGURACJA ------------------------------------------------------
-     FORM_ENDPOINT — adres usługi odbierającej formularz (np. Formspree:
-     'https://formspree.io/f/xxxxxxx'). Jeśli zostawisz pusty ciąg,
-     formularz otworzy program pocztowy z gotową treścią wiadomości.
-     CONTACT_EMAIL — adres, na który trafi wiadomość w trybie mailto.
+     CONTACT_EMAIL  — adres, na który trafiają wiadomości z formularza.
+     FORM_ENDPOINT  — usługa FormSubmit (bez rejestracji). Pierwsza wysyłka
+                      uruchamia mail aktywacyjny; po kliknięciu linku w tym
+                      mailu formularz działa na stałe.
+                      Po aktywacji warto podmienić adres na wersję z kluczem
+                      (np. 'https://formsubmit.co/ajax/abc123...'), którą
+                      FormSubmit przysyła — nie wystawia wtedy adresu e-mail
+                      w kodzie strony.
+                      Pusty ciąg = tryb zapasowy: otwarcie programu pocztowego.
   ------------------------------------------------------------------------ */
-  var FORM_ENDPOINT = '';
   var CONTACT_EMAIL = 'kontakt@marcinplywa.pl';
+  var FORM_ENDPOINT = 'https://formsubmit.co/ajax/' + CONTACT_EMAIL;
+
+  /* Etykiety pól w treści maila — bez tego przyszłyby surowe nazwy z HTML-a. */
+  var FIELD_LABELS = {
+    imie: 'Imię i nazwisko',
+    telefon: 'Telefon',
+    email: 'E-mail',
+    uczestnik: 'Uczestnik',
+    poziom: 'Poziom',
+    wiadomosc: 'Wiadomość'
+  };
 
   var $ = function (sel, ctx) { return (ctx || document).querySelector(sel); };
   var $$ = function (sel, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); };
@@ -198,22 +213,56 @@
       var data = new FormData(form);
       var btn = $('button[type="submit"]', form);
 
+      // Pułapka na boty: pole ukryte przed ludźmi. Wypełnione = spam.
+      // Udajemy sukces, żeby bot nie próbował ponownie.
+      if ((data.get('_honey') || '') !== '') {
+        form.reset();
+        setNote('Dziękuję — wiadomość została wysłana.', 'ok');
+        return;
+      }
+
       if (FORM_ENDPOINT) {
         if (btn) { btn.disabled = true; btn.textContent = 'Wysyłanie…'; }
         setNote('Wysyłanie wiadomości…', '');
 
+        var payload = {
+          _subject: 'Zapytanie ze strony — ' + (data.get('imie') || 'formularz'),
+          _template: 'table',
+          _captcha: 'false'
+        };
+        Object.keys(FIELD_LABELS).forEach(function (key) {
+          payload[FIELD_LABELS[key]] = data.get(key) || '—';
+        });
+        payload['Zgoda na przetwarzanie danych'] = data.get('zgoda') ? 'tak' : 'nie';
+
+        // Odpowiedź trafi wprost do nadawcy, o ile podał adres.
+        var replyTo = (data.get('email') || '').trim();
+        if (replyTo) payload._replyto = replyTo;
+
         fetch(FORM_ENDPOINT, {
           method: 'POST',
-          body: data,
-          headers: { Accept: 'application/json' }
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json'
+          },
+          body: JSON.stringify(payload)
         })
           .then(function (res) {
-            if (!res.ok) throw new Error('HTTP ' + res.status);
+            return res.json().catch(function () { return {}; });
+          })
+          .then(function (res) {
+            if (String(res.success) !== 'true') {
+              throw new Error(res.message || 'Nieznany błąd');
+            }
             form.reset();
             setNote('Dziękuję — wiadomość została wysłana. Odezwę się wkrótce.', 'ok');
           })
           .catch(function () {
-            setNote('Nie udało się wysłać wiadomości. Proszę o kontakt telefoniczny lub e-mail.', 'err');
+            setNote(
+              'Nie udało się wysłać wiadomości. Proszę o kontakt telefoniczny (+48 664 984 527) ' +
+              'lub e-mail na ' + CONTACT_EMAIL + '.',
+              'err'
+            );
           })
           .finally(function () {
             if (btn) { btn.disabled = false; btn.textContent = 'Wyślij zapytanie'; }

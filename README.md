@@ -49,13 +49,33 @@ Gdyby pliku zabrakło, w sekcji powitalnej pokaże się zastępnik — strona na
 
 ### Formularz kontaktowy
 
-Domyślnie formularz otwiera program pocztowy z gotową treścią wiadomości (tryb `mailto`).
-Aby wiadomości przychodziły na e-mail bez otwierania klienta poczty, załóż darmowe konto
-np. w [Formspree](https://formspree.io) i wpisz adres formularza w `assets/js/main.js`:
+Formularz wysyła wiadomości przez [FormSubmit](https://formsubmit.co) na adres
+`kontakt@marcinplywa.pl`. GitHub Pages to hosting statyczny — nie ma tam czego,
+co mogłoby wysłać maila samo z siebie, stąd usługa pośrednicząca.
+
+Konfiguracja jest w `assets/js/main.js`, na samej górze:
 
 ```js
-var FORM_ENDPOINT = 'https://formspree.io/f/twoj-identyfikator';
+var CONTACT_EMAIL = 'kontakt@marcinplywa.pl';
+var FORM_ENDPOINT = 'https://formsubmit.co/ajax/' + CONTACT_EMAIL;
 ```
+
+**Aktywacja (jednorazowo):** pierwsza wysyłka z formularza powoduje, że FormSubmit
+przysyła na `kontakt@marcinplywa.pl` mail z linkiem aktywacyjnym. Do czasu kliknięcia
+tego linku wiadomości nie są przekazywane.
+
+**Po aktywacji** FormSubmit udostępnia adres z kluczem, np.
+`https://formsubmit.co/ajax/a1b2c3d4...`. Warto go wpisać zamiast adresu e-mail —
+wtedy skrzynka nie jest wystawiona w kodzie strony dla robotów zbierających adresy.
+
+Zabezpieczenia w formularzu:
+
+- ukryte pole `_honey` (honeypot) — wypełniają je tylko boty, takie zgłoszenia są odrzucane
+- walidacja pól wymaganych po stronie przeglądarki
+- `_replyto` ustawiany na adres nadawcy, więc „Odpowiedz” w kliencie poczty działa poprawnie
+
+Aby wrócić do trybu otwierania programu pocztowego, wystarczy ustawić
+`var FORM_ENDPOINT = '';`.
 
 ### Kolory
 
