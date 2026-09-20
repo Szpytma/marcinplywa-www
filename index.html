@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Marcin Kędzior — Instruktor nauki pływania | Nauka i doskonalenie pływania</title>
-<meta name="description" content="Nauka i doskonalenie pływania dla dzieci, młodzieży i dorosłych. Instruktor nauki pływania, ratownik WOPR z ok. 20-letnim doświadczeniem, nauczyciel Edukacji dla Bezpieczeństwa. Zajęcia indywidualne, bezpieczeństwo i przyjazna atmosfera.">
-<meta name="keywords" content="nauka pływania, instruktor pływania, nauka pływania dzieci, nauka pływania dorośli, doskonalenie pływania, ratownik WOPR, Marcin Kędzior">
+<title>Nauka pływania Rzeszów — Marcin Kędzior | Instruktor, ratownik WOPR</title>
+<meta name="description" content="Nauka i doskonalenie pływania w Rzeszowie i okolicach — dla dzieci, młodzieży i dorosłych. Instruktor nauki pływania, ratownik WOPR z ok. 20-letnim doświadczeniem, nauczyciel Edukacji dla Bezpieczeństwa. Zajęcia indywidualne.">
+<meta name="keywords" content="nauka pływania Rzeszów, instruktor pływania Rzeszów, nauka pływania dzieci Rzeszów, nauka pływania dorośli, doskonalenie pływania, ratownik WOPR, Marcin Kędzior">
 <meta name="author" content="Marcin Kędzior">
 <link rel="canonical" href="https://marcinplywa.pl/">
 
@@ -13,7 +13,7 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="pl_PL">
 <meta property="og:site_name" content="marcinplywa.pl">
-<meta property="og:title" content="Marcin Kędzior — Instruktor nauki pływania">
+<meta property="og:title" content="Nauka pływania Rzeszów — Marcin Kędzior">
 <meta property="og:description" content="Nauka i doskonalenie pływania dla dzieci, młodzieży i dorosłych. Bezpieczeństwo, indywidualne podejście, przyjazna atmosfera.">
 <meta property="og:url" content="https://marcinplywa.pl/">
 <meta property="og:image" content="https://marcinplywa.pl/assets/img/marcin-hero.jpg">
@@ -26,7 +26,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/style.css?v=20260920b">
 
 <!-- Dane strukturalne dla Google -->
 <script type="application/ld+json">
@@ -40,7 +40,13 @@
   "telephone": "+48664984527",
   "email": "kontakt@marcinplywa.pl",
   "priceRange": "$$",
-  "areaServed": "Polska",
+  "areaServed": "Rzeszów i okolice",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Rzeszów",
+    "addressRegion": "podkarpackie",
+    "addressCountry": "PL"
+  },
   "founder": {
     "@type": "Person",
     "name": "Marcin Kędzior",
@@ -470,7 +476,7 @@
         </li>
         <li>
           <span class="ci" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
-          <div><strong>Miejsce zajęć</strong><span>Basen — do ustalenia (miasto / obiekt)</span></div>
+          <div><strong>Miejsce zajęć</strong><span>Rzeszów i okolice</span></div>
         </li>
         <li>
           <span class="ci" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span>
@@ -519,12 +525,15 @@
           <textarea id="wiadomosc" name="wiadomosc" rows="5" placeholder="Wiek uczestnika, cele, preferowane dni i godziny…"></textarea>
         </div>
         <!-- Pułapka na boty — ukryta przed użytkownikami, wypełniają ją tylko skrypty -->
-        <input type="text" name="_honey" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <input type="text" name="_honey" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true"
+               style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
 
+        <div class="field consent-field">
         <label class="consent">
           <input type="checkbox" id="zgoda" name="zgoda" required>
           <span>Wyrażam zgodę na przetwarzanie moich danych osobowych w celu odpowiedzi na zapytanie. <span class="req">*</span></span>
         </label>
+        </div>
         <button type="submit" class="btn btn-primary btn-lg btn-block">Wyślij zapytanie</button>
         <p class="form-note" id="form-note" role="status"></p>
       </form>
@@ -565,6 +574,6 @@
   </div>
 </footer>
 
-<script src="assets/js/main.js" defer></script>
+<script src="assets/js/main.js?v=20260920b" defer></script>
 </body>
 </html>

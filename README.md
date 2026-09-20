@@ -77,6 +77,32 @@ Zabezpieczenia w formularzu:
 Aby wrócić do trybu otwierania programu pocztowego, wystarczy ustawić
 `var FORM_ENDPOINT = '';`.
 
+Walidacja pól (w `assets/js/main.js`):
+
+| Pole | Reguła |
+|---|---|
+| Imię i nazwisko | wymagane, min. 3 znaki, musi zawierać literę |
+| Telefon | wymagany, 9 cyfr; prefiks `+48`, `0048` lub `48` jest obcinany |
+| E-mail | opcjonalny, ale jeśli podany — musi mieć poprawny format |
+| Zgoda RODO | wymagane zaznaczenie |
+
+Błędy pokazują się pod polami i znikają, gdy użytkownik zacznie poprawiać.
+
+### ⚠️ Cache — pamiętaj przy każdej zmianie CSS lub JS
+
+GitHub Pages wysyła `Cache-Control: max-age=600`, więc przeglądarki trzymają
+stare `style.css` i `main.js` nawet przez 10 minut po wdrożeniu. Dlatego oba
+pliki są linkowane z numerem wersji:
+
+```html
+<link rel="stylesheet" href="assets/css/style.css?v=20260920b">
+<script src="assets/js/main.js?v=20260920b" defer></script>
+```
+
+**Po każdej edycji CSS lub JS podnieś `?v=...` w `index.html`** (np. na `20260921a`).
+Bez tego część odwiedzających — i Ty sam — zobaczy starą wersję i będzie szukać
+błędu, którego już nie ma.
+
 ### Kolory
 
 Cała paleta jest w jednym miejscu — `assets/css/style.css`, blok `:root`:

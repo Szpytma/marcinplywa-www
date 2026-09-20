@@ -181,32 +181,83 @@
     note.className = 'form-note' + (type ? ' ' + type : '');
   };
 
-  var validate = function () {
-    var ok = true;
-    $$('[required]', form).forEach(function (field) {
-      var valid = field.type === 'checkbox' ? field.checked : field.value.trim() !== '' && field.checkValidity();
-      field.classList.toggle('invalid', !valid);
-      if (!valid && ok) { field.focus(); ok = false; }
-    });
-    var email = $('#email', form);
-    if (email && email.value.trim() !== '' && !email.checkValidity()) {
-      email.classList.add('invalid');
-      if (ok) { email.focus(); ok = false; }
+  /* Walidacja własna — atrybuty type="tel"/type="email" przepuszczają
+     zbyt wiele, a formularz ma novalidate, więc przeglądarka nie pomaga. */
+
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
+
+  // Zostawia same cyfry i obcina prefiks krajowy (+48 / 0048 / 48).
+  var phoneDigits = function (value) {
+    var d = String(value).replace(/[^\d+]/g, '');
+    d = d.replace(/^\+?(?:0048|48)/, '').replace(/\D/g, '');
+    return d;
+  };
+
+  var setFieldError = function (field, message) {
+    var wrap = field.closest ? field.closest('.field') : null;
+    if (!wrap) wrap = field.parentNode;
+    var note = wrap.querySelector('.field-error');
+
+    if (message) {
+      if (!note) {
+        note = document.createElement('p');
+        note.className = 'field-error';
+        wrap.appendChild(note);
+      }
+      note.textContent = message;
+      field.classList.add('invalid');
+      field.setAttribute('aria-invalid', 'true');
+    } else {
+      if (note && note.parentNode) note.parentNode.removeChild(note);
+      field.classList.remove('invalid');
+      field.removeAttribute('aria-invalid');
     }
-    return ok;
+  };
+
+  var validate = function () {
+    var firstBad = null;
+    var check = function (field, isValid, message) {
+      if (!field) return;
+      setFieldError(field, isValid ? '' : message);
+      if (!isValid && !firstBad) firstBad = field;
+    };
+
+    var imie = $('#imie', form);
+    var imieVal = imie ? imie.value.trim() : '';
+    check(imie, imieVal.length >= 3 && /[a-ząćęłńóśźż]/i.test(imieVal),
+      'Proszę podać imię i nazwisko.');
+
+    var tel = $('#telefon', form);
+    var telVal = tel ? phoneDigits(tel.value) : '';
+    check(tel, /^[1-9]\d{8}$/.test(telVal),
+      'Numer telefonu powinien mieć 9 cyfr, np. 664 984 527.');
+
+    var email = $('#email', form);
+    var emailVal = email ? email.value.trim() : '';
+    check(email, emailVal === '' || EMAIL_RE.test(emailVal),
+      'Adres e-mail wygląda na niepoprawny — np. jan.nowak@gmail.com.');
+
+    var zgoda = $('#zgoda', form);
+    check(zgoda, zgoda ? zgoda.checked : true,
+      'Bez tej zgody nie mogę odpowiedzieć na zapytanie.');
+
+    if (firstBad) firstBad.focus();
+    return !firstBad;
   };
 
   if (form) {
+    // Komunikat znika, gdy tylko użytkownik zacznie poprawiać pole.
     $$('input, select, textarea', form).forEach(function (field) {
-      field.addEventListener('input', function () { field.classList.remove('invalid'); });
-      field.addEventListener('change', function () { field.classList.remove('invalid'); });
+      var clear = function () { setFieldError(field, ''); };
+      field.addEventListener('input', clear);
+      field.addEventListener('change', clear);
     });
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
 
       if (!validate()) {
-        setNote('Proszę uzupełnić zaznaczone pola.', 'err');
+        setNote('Proszę poprawić zaznaczone pola.', 'err');
         return;
       }
 

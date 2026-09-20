@@ -389,7 +389,21 @@ h2.light{color:#fff}
 .field input:focus,.field select:focus,.field textarea:focus{
   outline:none;border-color:var(--cyan-400);box-shadow:0 0 0 4px rgba(23,182,221,.14);
 }
-.field input.invalid,.field select.invalid,.field textarea.invalid{border-color:#e08a84;box-shadow:0 0 0 4px rgba(212,87,79,.12)}
+.field input.invalid,.field select.invalid,.field textarea.invalid{border-color:#d4574f;box-shadow:0 0 0 4px rgba(212,87,79,.12)}
+
+/* Komunikat walidacji pod polem */
+.field-error{
+  display:flex;align-items:flex-start;gap:7px;
+  margin:7px 0 0;font-size:.82rem;font-weight:600;color:#c4483f;line-height:1.4;
+}
+.field-error::before{
+  content:"!";flex:none;display:grid;place-items:center;
+  width:16px;height:16px;margin-top:1px;border-radius:50%;
+  background:#c4483f;color:#fff;font-size:.68rem;font-weight:800;
+}
+.consent-field{margin-bottom:0}
+.consent-field .field-error{margin-top:0;margin-bottom:16px}
+.consent-field input.invalid{outline:2px solid #c4483f;outline-offset:2px}
 
 /* Pułapka na boty — niewidoczna i poza kolejnością fokusu */
 .honeypot{position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none}
