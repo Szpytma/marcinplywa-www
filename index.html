@@ -20,13 +20,20 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#0b3d5c">
 
+<!-- Naglowki bezpieczenstwa. GitHub Pages nie pozwala ustawic naglowkow HTTP,
+     wiec to, co da sie wyrazic znacznikiem meta, jest tutaj.
+     Uwaga: frame-ancestors dziala TYLKO jako naglowek HTTP i tu jest ignorowane. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'sha256-0KJBy9BalnT+1aSmLTxDiD3UysNjgF4ZwJxieEYf6HA='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://formsubmit.co; form-action 'self' https://formsubmit.co; frame-ancestors 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/img/favicon.svg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=20260920c">
+<link rel="stylesheet" href="assets/css/style.css?v=20260920d">
 
 <!-- Dane strukturalne dla Google -->
 <script type="application/ld+json">
@@ -534,6 +541,28 @@
           <span>Wyrażam zgodę na przetwarzanie moich danych osobowych w celu odpowiedzi na zapytanie. <span class="req">*</span></span>
         </label>
         </div>
+
+        <details class="rodo">
+          <summary>Informacja o przetwarzaniu danych osobowych</summary>
+          <p>
+            Administratorem danych jest <strong>Marcin Kędzior</strong>
+            (<a href="mailto:kontakt@marcinplywa.pl">kontakt@marcinplywa.pl</a>,
+            <a href="tel:+48664984527">+48 664 984 527</a>). Dane podane w formularzu przetwarzam
+            wyłącznie po to, aby odpowiedzieć na zapytanie i ustalić szczegóły zajęć —
+            na podstawie Twojej zgody oraz działań przed zawarciem umowy
+            (art. 6 ust. 1 lit. a i b RODO).
+          </p>
+          <p>
+            Podanie danych jest dobrowolne, a zgodę możesz wycofać w każdej chwili.
+            Masz prawo dostępu do danych, ich sprostowania, usunięcia, ograniczenia przetwarzania,
+            sprzeciwu i przenoszenia, a także wniesienia skargi do Prezesa UODO.
+            Wiadomość przekazuje usługa FormSubmit, działająca poza Europejskim Obszarem Gospodarczym.
+          </p>
+          <p>
+            Szczegóły — w tym okresy przechowywania danych —
+            znajdziesz w <a href="polityka-prywatnosci.html">polityce prywatności</a>.
+          </p>
+        </details>
         <button type="submit" class="btn btn-primary btn-lg btn-block">Wyślij zapytanie</button>
         <p class="form-note" id="form-note" role="status"></p>
       </form>
@@ -558,6 +587,7 @@
         <li><a href="#program">Program</a></li>
         <li><a href="#faq">FAQ</a></li>
         <li><a href="#kontakt">Kontakt</a></li>
+        <li><a href="polityka-prywatnosci.html">Polityka prywatności</a></li>
       </ul>
     </nav>
     <div>
@@ -574,6 +604,6 @@
   </div>
 </footer>
 
-<script src="assets/js/main.js?v=20260920c" defer></script>
+<script src="assets/js/main.js?v=20260920d" defer></script>
 </body>
 </html>
